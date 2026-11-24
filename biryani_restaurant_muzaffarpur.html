@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biryani Restaurant | Best Biryani in Muzaffarpur</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        saffron: {
+                            50: '#fff8ed',
+                            100: '#ffefd4',
+                            500: '#f57c00',
+                            600: '#e65100',
+                            700: '#bf360c',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        charcoal: {
+                            800: '#231915',
+                            900: '#17100d',
+                            950: '#0f0a08',
+                        },
+                        cream: '#fdfaf5',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-cream text-charcoal-900 font-sans antialiased selection:bg-saffron-500 selection:text-white">
+
+    <!-- Toast Notification Container (Replaces alert) -->
+    <div id="toast-container" class="fixed bottom-24 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-charcoal-950 text-gold-400 text-xs sm:text-sm py-2 px-4 text-center border-b border-gold-500/20">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
+            <span class="flex items-center gap-1.5 font-medium">
+                <i class="fa-solid fa-star text-gold-400"></i> 5.0 Rated on Google Maps
+            </span>
+            <span class="hidden sm:inline text-white/30">|</span>
+            <span class="flex items-center gap-1.5 text-cream/90">
+                <i class="fa-regular fa-clock text-saffron-500"></i> Open Today · Closes 10:00 PM
+            </span>
+            <span class="hidden md:inline text-white/30">|</span>
+            <a href="tel:07717750156" class="hidden md:flex items-center gap-1.5 hover:text-white transition">
+                <i class="fa-solid fa-phone text-saffron-500"></i> 077177 50156
+            </a>
+        </div>
+    </div>
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-40 bg-charcoal-900/95 backdrop-blur-md text-white shadow-lg border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-saffron-500 to-gold-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition">
+                    <i class="fa-solid fa-bowl-rice text-lg sm:text-xl"></i>
+                </div>
+                <div>
+                    <span class="font-serif font-bold text-lg sm:text-xl tracking-wide block leading-tight text-white">Biryani Restaurant</span>
+                    <span class="text-[11px] uppercase tracking-widest text-gold-400 font-semibold block">Muzaffarpur · Bihar</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-cream/85">
+                <a href="#menu" class="hover:text-gold-400 transition">Menu & Prices</a>
+                <a href="#services" class="hover:text-gold-400 transition">Services</a>
+                <a href="#reviews" class="hover:text-gold-400 transition">Reviews (5.0 ★)</a>
+                <a href="#location" class="hover:text-gold-400 transition">Location & Hours</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <a href="tel:07717750156" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition border border-white/10">
+                    <i class="fa-solid fa-phone text-gold-400"></i>
+                    <span>Call Now</span>
+                </a>
+                <button onclick="toggleCartModal()" class="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-saffron-600 to-saffron-500 hover:from-saffron-500 hover:to-gold-500 text-white text-sm font-semibold shadow-lg shadow-saffron-600/30 transition cursor-pointer">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Order</span>
+                    <span id="nav-cart-badge" class="bg-charcoal-950 text-gold-400 text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-charcoal-900 text-white overflow-hidden">
+        <!-- Decorative Background Pattern & Overlay -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-saffron-600/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 lg:py-24 grid lg:grid-cols-12 gap-10 items-center">
+            <!-- Hero Text Content -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <!-- 5.0 Google Rating Pill -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/15 border border-gold-400/30 text-gold-400 text-xs sm:text-sm font-semibold">
+                    <span class="flex text-gold-400">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </span>
+                    <span>5.0 Rating · "BEST BIRIYANI HOTEL IN WORLD"</span>
+                </div>
+
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                    Authentic Royal <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-saffron-500 to-gold-400">Dum Biryani</span> in Muzaffarpur
+                </h1>
+
+                <p class="text-cream/80 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    Slow-cooked aromatic long-grain basmati rice layered with rich hand-ground spices, tender flavors, and served piping hot near Bairiya Bus Stand. Unbeatable taste starting at just <strong class="text-gold-400 font-bold">₹100</strong> & <strong class="text-gold-400 font-bold">₹130</strong>.
+                </p>
+
+                <!-- Primary CTA Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+                    <a href="#menu" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-saffron-600 to-saffron-500 hover:from-saffron-500 hover:to-gold-500 text-white font-bold text-base shadow-xl shadow-saffron-600/30 transition flex items-center justify-center gap-2.5">
+                        <i class="fa-solid fa-utensils"></i>
+                        <span>Order ₹100 / ₹130 Biryani</span>
+                    </a>
+                    <a href="tel:07717750156" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-base border border-white/15 transition flex items-center justify-center gap-2.5">
+                        <i class="fa-solid fa-phone-volume text-gold-400"></i>
+                        <span>Call: 077177 50156</span>
+                    </a>
+                </div>
+
+                <!-- Quick Location & Status Strip -->
+                <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs sm:text-sm text-cream/75">
+                    <span class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <strong class="text-emerald-400">Open Now</strong> · Closes 10:00 PM
+                    </span>
+                    <span class="text-white/20">•</span>
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-location-dot text-saffron-500"></i>
+                        Bairiya Bus Stand, Near Nathuni Bhagat High School
+                    </span>
+                </div>
+            </div>
+
+            <!-- Hero Visual Card -->
+            <div class="lg:col-span-5">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-gold-500/30 bg-charcoal-800 group">
+                    <img 
+                        src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=900&q=80" 
+                        onerror="this.onerror=null;this.src='https://placehold.co/800x700/231915/fbbf24?text=Royal+Hyderabadi+Dum+Biryani';"
+                        alt="Steaming hot aromatic Biryani served in traditional handi" 
+                        class="w-full h-72 sm:h-96 object-cover group-hover:scale-105 transition duration-700"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/30 to-transparent"></div>
+                    
+                    <!-- Floating Price Tag Badge -->
+                    <div class="absolute top-4 right-4 bg-charcoal-950/90 backdrop-blur-md border border-gold-400/40 rounded-2xl px-4 py-2.5 text-center shadow-lg">
+                        <span class="text-[11px] uppercase tracking-wider text-gold-400 block font-semibold">Plates Starting</span>
+                        <span class="font-serif text-2xl font-extrabold text-white">₹100 <span class="text-sm font-normal text-cream/70">/ ₹130</span></span>
+                    </div>
+
+                    <!-- Bottom Card Caption -->
+                    <div class="absolute bottom-0 inset-x-0 p-5 sm:p-6 flex items-end justify-between gap-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-1 rounded-lg bg-saffron-600 text-white text-xs font-bold mb-1.5">Freshly Cooked Daily</span>
+                            <h2 class="font-serif text-xl sm:text-2xl font-bold text-white">Signature Handi Biryani</h2>
+                            <p class="text-xs sm:text-sm text-cream/80">Served with Raita & Spiced Salan</p>
+                        </div>
+                        <button onclick="addToCart('Royal Full Plate Biryani', 130)" class="shrink-0 w-12 h-12 rounded-2xl bg-gold-500 hover:bg-gold-400 text-charcoal-950 flex items-center justify-center shadow-lg transition cursor-pointer" title="Quick Add ₹130 Plate">
+                            <i class="fa-solid fa-plus text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Options Strip -->
+    <section id="services" class="bg-white border-b border-amber-900/10 py-6 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-cream border border-amber-900/10">
+                    <div class="w-11 h-11 rounded-xl bg-saffron-100 text-saffron-600 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-utensils text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-charcoal-900">Dine-in</h3>
+                        <p class="text-xs text-charcoal-800/70">Warm family seating</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-cream border border-amber-900/10">
+                    <div class="w-11 h-11 rounded-xl bg-saffron-100 text-saffron-600 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-car-side text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-charcoal-900">Drive-through</h3>
+                        <p class="text-xs text-charcoal-800/70">Quick bus stand pickup</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-cream border border-amber-900/10">
+                    <div class="w-11 h-11 rounded-xl bg-saffron-100 text-saffron-600 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-box-open text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-charcoal-900">No-contact Delivery</h3>
+                        <p class="text-xs text-charcoal-800/70">Safe doorstep drop</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-cream border border-amber-900/10">
+                    <div class="w-11 h-11 rounded-xl bg-saffron-100 text-saffron-600 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-mobile-screen-button text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-charcoal-900">Order Online</h3>
+                        <p class="text-xs text-charcoal-800/70">Instant WhatsApp / Call</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section (Highlighting ₹100 & ₹130 Biryani) -->
+    <section id="menu" class="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-3">
+            <span class="text-saffron-600 font-bold uppercase tracking-widest text-xs">Our Signature Specialties</span>
+            <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-charcoal-900">Authentic Biryani Menu</h2>
+            <p class="text-charcoal-800/75 text-sm sm:text-base">
+                Crafted with aromatic basmati rice, pure ghee, saffron essence, and our secret blend of royal spices. Choose your plate size and order directly!
+            </p>
+        </div>
+
+        <!-- Primary Highlighted Cards: ₹100 & ₹130 -->
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            
+            <!-- ₹100 Plate Card -->
+            <div class="bg-white rounded-3xl overflow-hidden shadow-xl shadow-amber-950/5 border border-amber-900/10 flex flex-col justify-between hover:-translate-y-1 transition duration-300">
+                <div>
+                    <div class="relative h-60 sm:h-64 overflow-hidden bg-charcoal-800">
+                        <img 
+                            src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=800&q=80" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/800x500/231915/f59e0b?text=Classic+Biryani+Plate+-+Rs+100';"
+                            alt="Special Classic Biryani Plate ₹100" 
+                            class="w-full h-full object-cover hover:scale-105 transition duration-500"
+                        >
+                        <div class="absolute top-4 left-4 bg-charcoal-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm">
+                            POPULAR CHOICE
+                        </div>
+                        <div class="absolute bottom-4 right-4 bg-saffron-600 text-white font-serif text-2xl sm:text-3xl font-extrabold px-4 py-1.5 rounded-2xl shadow-lg">
+                            ₹100
+                        </div>
+                    </div>
+
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-charcoal-900">Special Classic Biryani</h3>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 shrink-0">Half / Regular Plate</span>
+                        </div>
+                        <p class="text-charcoal-800/75 text-sm leading-relaxed mb-5">
+                            A hearty, satisfying portion of fragrant dum-cooked basmati rice layered with rich masala and tender, juicy pieces. Ideal for a quick, fulfilling lunch or dinner.
+                        </p>
+                        <ul class="space-y-2 text-xs sm:text-sm text-charcoal-800/85 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-600"></i> Fragrant Long-Grain Basmati Rice</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-600"></i> Served with Fresh Mint Raita & Onion Salad</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-600"></i> Available for Dine-in, Drive-through & Delivery</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="px-6 sm:px-8 pb-6 sm:pb-8 pt-0 flex flex-col sm:flex-row gap-3">
+                    <button onclick="addToCart('Special Classic Biryani (₹100)', 100)" class="flex-1 py-3.5 px-5 rounded-xl bg-charcoal-900 hover:bg-saffron-600 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-md cursor-pointer">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        <span>Add to Order · ₹100</span>
+                    </button>
+                    <button onclick="quickWhatsAppOrder('Special Classic Biryani (₹100)', 100)" class="py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition flex items-center justify-center gap-2 cursor-pointer" title="Order directly on WhatsApp">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span class="sm:hidden">WhatsApp Order</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ₹130 Plate Card -->
+            <div class="relative bg-white rounded-3xl overflow-hidden shadow-2xl shadow-saffron-600/15 border-2 border-saffron-500 flex flex-col justify-between hover:-translate-y-1 transition duration-300">
+                <div>
+                    <div class="relative h-60 sm:h-64 overflow-hidden bg-charcoal-800">
+                        <img 
+                            src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=800&q=80" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/800x500/231915/fbbf24?text=Royal+Feast+Biryani+-+Rs+130';"
+                            alt="Royal Feast Biryani Full Plate ₹130" 
+                            class="w-full h-full object-cover hover:scale-105 transition duration-500"
+                        >
+                        <div class="absolute top-4 left-4 bg-gradient-to-r from-saffron-600 to-gold-500 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
+                            <i class="fa-solid fa-crown"></i> BESTSELLER · FULL FEAST
+                        </div>
+                        <div class="absolute bottom-4 right-4 bg-charcoal-950 text-gold-400 border border-gold-400/40 font-serif text-2xl sm:text-3xl font-extrabold px-4 py-1.5 rounded-2xl shadow-lg">
+                            ₹130
+                        </div>
+                    </div>
+
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-charcoal-900">Royal Feast Biryani</h3>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-saffron-100 text-saffron-700 shrink-0">Full Plate Special</span>
+                        </div>
+                        <p class="text-charcoal-800/75 text-sm leading-relaxed mb-5">
+                            Our signature generous full-plate feast! Loaded with extra aromatic saffron rice, rich roasted masala gravy, and generous succulent pieces that earned our 5.0★ rating.
+                        </p>
+                        <ul class="space-y-2 text-xs sm:text-sm text-charcoal-800/85 mb-6">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-saffron-600"></i> Generous King-Size Full Portion</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-saffron-600"></i> Extra Masala, Roasted Onions & Aromatic Ghee</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-saffron-600"></i> Includes Special Salan, Raita & Mint Chutney</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="px-6 sm:px-8 pb-6 sm:pb-8 pt-0 flex flex-col sm:flex-row gap-3">
+                    <button onclick="addToCart('Royal Feast Biryani (₹130)', 130)" class="flex-1 py-3.5 px-5 rounded-xl bg-gradient-to-r from-saffron-600 to-saffron-500 hover:from-saffron-500 hover:to-gold-500 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-saffron-600/25 cursor-pointer">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        <span>Add to Order · ₹130</span>
+                    </button>
+                    <button onclick="quickWhatsAppOrder('Royal Feast Biryani (₹130)', 130)" class="py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition flex items-center justify-center gap-2 cursor-pointer" title="Order directly on WhatsApp">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span class="sm:hidden">WhatsApp Order</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bulk / Party Order Banner -->
+        <div class="mt-12 max-w-5xl mx-auto rounded-3xl bg-charcoal-900 text-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-gold-500/20 shadow-xl">
+            <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
+                <div class="w-14 h-14 rounded-2xl bg-gold-500/20 text-gold-400 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-fire-burner text-2xl"></i>
+                </div>
+                <div>
+                    <h4 class="font-serif text-xl font-bold text-white">Ordering for Family, Office, or Travel?</h4>
+                    <p class="text-sm text-cream/80 mt-1">Located right near Bairiya Bus Stand! Call ahead and we'll pack fresh ₹100 or ₹130 plates ready for your journey.</p>
+                </div>
+            </div>
+            <a href="tel:07717750156" class="shrink-0 px-6 py-3.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-charcoal-950 font-bold text-sm transition flex items-center gap-2">
+                <i class="fa-solid fa-phone"></i>
+                <span>Pre-Book: 077177 50156</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section (Exact Google Reviews Data) -->
+    <section id="reviews" class="py-16 sm:py-24 bg-charcoal-950 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-gold-400 font-bold uppercase tracking-widest text-xs">Verified Google Maps Reviews</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-extrabold mt-2">Loved by Biryani Lovers</h2>
+                </div>
+
+                <!-- Overall 5.0 Rating Summary Box -->
+                <div class="inline-flex items-center gap-4 bg-charcoal-900 border border-gold-500/30 rounded-2xl px-5 py-3.5">
+                    <div class="font-serif text-4xl font-extrabold text-gold-400">5.0</div>
+                    <div>
+                        <div class="flex text-gold-400 text-sm gap-0.5">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs text-cream/75 mt-0.5">Perfect 5/5 Score on Google</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Grid -->
+            <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+                <!-- Review 1: Afsana Khatoon -->
+                <div class="bg-charcoal-900/90 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="flex items-center justify-between gap-4 mb-4">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-saffron-500 to-gold-500 flex items-center justify-center font-bold text-charcoal-950 text-lg">
+                                    AK
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white text-base">Afsana Khatoon</h3>
+                                    <p class="text-xs text-cream/60">3 reviews · 3 photos · Dinner</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg bg-white/5 text-gold-400 text-xs font-semibold">
+                                <i class="fa-brands fa-google mr-1"></i> Google
+                            </span>
+                        </div>
+
+                        <div class="flex text-gold-400 text-sm gap-1 mb-3">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+
+                        <blockquote class="font-serif text-xl sm:text-2xl font-bold text-gold-400 mb-4">
+                            "BEST BIRIYANI HOTEL IN WORLD"
+                        </blockquote>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/10 flex flex-wrap gap-2 text-xs font-medium text-cream/85">
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Food: <strong class="text-gold-400">5/5</strong></span>
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Service: <strong class="text-gold-400">5/5</strong></span>
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Atmosphere: <strong class="text-gold-400">5/5</strong></span>
+                    </div>
+                </div>
+
+                <!-- Review 2: Ayan Koushar -->
+                <div class="bg-charcoal-900/90 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="flex items-center justify-between gap-4 mb-4">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center font-bold text-white text-lg">
+                                    AK
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white text-base">Ayan Koushar</h3>
+                                    <p class="text-xs text-cream/60">Verified Customer · Google Review</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg bg-white/5 text-gold-400 text-xs font-semibold">
+                                <i class="fa-brands fa-google mr-1"></i> Google
+                            </span>
+                        </div>
+
+                        <div class="flex text-gold-400 text-sm gap-1 mb-3">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+
+                        <p class="text-cream/90 text-base sm:text-lg leading-relaxed mb-4">
+                            Outstanding taste, authentic spices, and top-notch hospitality! Truly the go-to biryani destination near Bairiya Bus Stand in Muzaffarpur.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/10 flex flex-wrap gap-2 text-xs font-medium text-cream/85">
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Food: <strong class="text-gold-400">5/5</strong></span>
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Service: <strong class="text-gold-400">5/5</strong></span>
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Value: <strong class="text-gold-400">5/5</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location, Address & Hours Section -->
+    <section id="location" class="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="bg-white rounded-3xl shadow-xl border border-amber-900/10 overflow-hidden grid lg:grid-cols-12">
+            <!-- Details Column -->
+            <div class="lg:col-span-6 p-6 sm:p-10 space-y-6">
+                <div>
+                    <span class="text-saffron-600 font-bold uppercase tracking-widest text-xs">Visit Us Today</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-charcoal-900 mt-1">Find Biryani Restaurant</h2>
+                </div>
+
+                <div class="space-y-5">
+                    <!-- Address -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-saffron-100 text-saffron-600 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-location-dot text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-charcoal-900 text-sm uppercase tracking-wider">Address</h3>
+                            <p class="text-charcoal-800/85 text-sm sm:text-base mt-1 leading-relaxed">
+                                Bairiya, Bus Stand, near Nathuni Bhagat High School,<br>
+                                Muzaffarpur, Paigamber Pur Kolhua, Bihar 842003
+                            </p>
+                            <button onclick="copyText('Bairiya, bus stand, near nathuni bhagat high school, Muzaffarpur, Paigamber Pur Kolhua, Bihar 842003', 'Address copied to clipboard!')" class="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-saffron-600 hover:text-saffron-700 cursor-pointer">
+                                <i class="fa-regular fa-copy"></i> Copy Full Address
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Plus Code -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-saffron-100 text-saffron-600 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-map-pin text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-charcoal-900 text-sm uppercase tracking-wider">Google Plus Code</h3>
+                            <div class="flex items-center gap-3 mt-1">
+                                <span class="font-mono text-sm font-semibold bg-cream px-3 py-1 rounded-lg border border-amber-900/15">49X7+93 Muzaffarpur, Bihar</span>
+                                <button onclick="copyText('49X7+93 Muzaffarpur, Bihar', 'Plus Code copied!')" class="text-xs font-semibold text-saffron-600 hover:underline cursor-pointer">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hours -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-regular fa-clock text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-charcoal-900 text-sm uppercase tracking-wider">Opening Hours</h3>
+                            <p class="text-sm sm:text-base mt-1">
+                                <span class="font-bold text-emerald-700">Open Daily</span> · Closes at <strong class="text-charcoal-900">10:00 PM</strong>
+                            </p>
+                            <p class="text-xs text-charcoal-800/65 mt-0.5">Peak dining hours: 12:00 PM – 3:00 PM & 6:30 PM – 9:30 PM</p>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-saffron-100 text-saffron-600 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-phone text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-charcoal-900 text-sm uppercase tracking-wider">Phone / Takeaway Desk</h3>
+                            <a href="tel:07717750156" class="inline-block text-lg sm:text-xl font-extrabold text-charcoal-900 hover:text-saffron-600 transition mt-0.5">
+                                077177 50156
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Links -->
+                <div class="pt-2 flex flex-wrap gap-3">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Biryani+restaurant+Bairiya+bus+stand+Muzaffarpur+842003" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-initial px-6 py-3.5 rounded-xl bg-charcoal-900 hover:bg-saffron-600 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-solid fa-diamond-turn-right"></i>
+                        <span>Get Directions</span>
+                    </a>
+                    <button onclick="shareRestaurant()" class="px-5 py-3.5 rounded-xl bg-cream hover:bg-amber-100 text-charcoal-900 font-semibold text-sm border border-amber-900/15 transition flex items-center justify-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-share-nodes text-saffron-600"></i>
+                        <span>Share Location</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interactive Map Embed / Visual Landmark Card -->
+            <div class="lg:col-span-6 bg-charcoal-900 relative min-h-[340px] flex flex-col justify-between">
+                <iframe 
+                    title="Biryani Restaurant Location Map in Muzaffarpur"
+                    class="w-full h-full min-h-[360px] border-0 opacity-90"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://maps.google.com/maps?q=Bairiya%20Bus%20Stand%20Muzaffarpur%20842003&t=&z=15&ie=UTF8&iwloc=&output=embed">
+                </iframe>
+                <div class="bg-charcoal-950/95 text-white px-5 py-3.5 flex items-center justify-between text-xs border-t border-white/10">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-school text-gold-400"></i>
+                        Landmark: Near Nathuni Bhagat High School, Bairiya
+                    </span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=49X7%2B93+Muzaffarpur,+Bihar" target="_blank" rel="noopener noreferrer" class="text-gold-400 font-semibold hover:underline">
+                        Open Maps ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal-950 text-cream/75 border-t border-white/10 pb-24 sm:pb-12 pt-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="text-center sm:text-left">
+                <div class="flex items-center justify-center sm:justify-start gap-2.5 text-white font-serif font-bold text-xl">
+                    <i class="fa-solid fa-bowl-rice text-gold-400"></i>
+                    <span>Biryani Restaurant</span>
+                </div>
+                <p class="text-xs text-cream/60 mt-1.5">
+                    Bairiya, Bus Stand, near Nathuni Bhagat High School, Muzaffarpur, Bihar 842003
+                </p>
+            </div>
+            <div class="flex items-center gap-4 text-sm">
+                <a href="tel:07717750156" class="text-gold-400 hover:text-white font-semibold transition">
+                    <i class="fa-solid fa-phone mr-1"></i> 077177 50156
+                </a>
+                <span class="text-white/20">|</span>
+                <span class="text-xs">Open till 10:00 PM</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Sticky Bottom Action Bar -->
+    <div class="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-charcoal-950/95 backdrop-blur-md border-t border-white/15 p-3 grid grid-cols-2 gap-2.5">
+        <a href="tel:07717750156" class="py-3 px-4 rounded-xl bg-white/10 text-white font-bold text-sm flex items-center justify-center gap-2">
+            <i class="fa-solid fa-phone text-gold-400"></i>
+            <span>Call Now</span>
+        </a>
+        <button onclick="toggleCartModal()" class="py-3 px-4 rounded-xl bg-gradient-to-r from-saffron-600 to-saffron-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>Order (<span id="mobile-cart-count">0</span>)</span>
+        </button>
+    </div>
+
+    <!-- Interactive Order Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop -->
+        <div onclick="toggleCartModal()" class="absolute inset-0 bg-charcoal-950/75 backdrop-blur-sm"></div>
+        
+        <!-- Modal Panel -->
+        <div class="relative max-w-md w-full mx-auto mt-10 sm:mt-16 px-4">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-amber-900/15">
+                <!-- Modal Header -->
+                <div class="bg-charcoal-900 text-white px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-bag-shopping text-gold-400"></i>
+                        <h3 class="font-serif font-bold text-lg">Your Biryani Order</h3>
+                    </div>
+                    <button onclick="toggleCartModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 max-h-[65vh] overflow-y-auto space-y-5">
+                    <!-- Quick Add Buttons if Cart is Empty or Adding More -->
+                    <div class="bg-cream rounded-2xl p-3.5 border border-amber-900/10">
+                        <p class="text-xs font-bold uppercase tracking-wider text-charcoal-800/70 mb-2.5">Quick Add Plates:</p>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <button onclick="addToCart('Special Classic Biryani (₹100)', 100)" class="p-2.5 rounded-xl bg-white hover:bg-saffron-50 border border-amber-900/15 text-left transition cursor-pointer">
+                                <span class="text-xs font-bold block text-charcoal-900">Classic Plate</span>
+                                <span class="text-sm font-extrabold text-saffron-600">+ ₹100</span>
+                            </button>
+                            <button onclick="addToCart('Royal Feast Biryani (₹130)', 130)" class="p-2.5 rounded-xl bg-white hover:bg-saffron-50 border border-saffron-500/40 text-left transition cursor-pointer">
+                                <span class="text-xs font-bold block text-charcoal-900">Royal Full Plate</span>
+                                <span class="text-sm font-extrabold text-saffron-600">+ ₹130</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cart Items Container -->
+                    <div id="cart-items-list" class="space-y-3">
+                        <!-- Dynamically rendered -->
+                    </div>
+
+                    <!-- Order Mode Selection -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-charcoal-800/70 mb-2">Order Type</label>
+                        <div class="grid grid-cols-3 gap-2 text-xs font-semibold">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="orderType" value="No-Contact Delivery" checked class="peer sr-only">
+                                <div class="p-2.5 text-center rounded-xl border border-amber-900/15 peer-checked:bg-saffron-600 peer-checked:text-white peer-checked:border-saffron-600 transition">
+                                    Delivery
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="orderType" value="Drive-Through Pickup" class="peer sr-only">
+                                <div class="p-2.5 text-center rounded-xl border border-amber-900/15 peer-checked:bg-saffron-600 peer-checked:text-white peer-checked:border-saffron-600 transition">
+                                    Drive-Thru
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="orderType" value="Dine-In Table" class="peer sr-only">
+                                <div class="p-2.5 text-center rounded-xl border border-amber-900/15 peer-checked:bg-saffron-600 peer-checked:text-white peer-checked:border-saffron-600 transition">
+                                    Dine-In
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-cream px-6 py-4 border-t border-amber-900/10 space-y-3">
+                    <div class="flex items-center justify-between text-base font-bold">
+                        <span class="text-charcoal-800">Total Amount:</span>
+                        <span id="cart-total-amount" class="font-serif text-2xl font-extrabold text-saffron-600">₹0</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <button onclick="checkoutViaWhatsApp()" class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition cursor-pointer">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Order on WhatsApp</span>
+                        </button>
+                        <a href="tel:07717750156" class="py-3 px-4 rounded-xl bg-charcoal-900 hover:bg-charcoal-800 text-white font-bold text-sm flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-phone text-gold-400"></i>
+                            <span>Call 077177 50156</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Cart State Management
+        let cart = {};
+
+        // Show custom toast notification (no alert())
+        function showToast(message, icon = 'fa-circle-check') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto bg-charcoal-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-gold-500/30 flex items-center gap-3 text-sm font-medium transform transition-all duration-300 translate-y-2 opacity-0';
+            toast.innerHTML = `<i class="fa-solid ${icon} text-gold-400"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        // Add item to order cart
+        function addToCart(name, price) {
+            if (cart[name]) {
+                cart[name].qty += 1;
+            } else {
+                cart[name] = { name, price, qty: 1 };
+            }
+            updateCartUI();
+            showToast(`Added ${name} to order!`);
+        }
+
+        // Update item quantity
+        function updateQty(name, delta) {
+            if (!cart[name]) return;
+            cart[name].qty += delta;
+            if (cart[name].qty <= 0) {
+                delete cart[name];
+            }
+            updateCartUI();
+        }
+
+        // Refresh Cart UI & Counters
+        function updateCartUI() {
+            const listEl = document.getElementById('cart-items-list');
+            const navBadge = document.getElementById('nav-cart-badge');
+            const mobileCount = document.getElementById('mobile-cart-count');
+            const totalEl = document.getElementById('cart-total-amount');
+
+            const items = Object.values(cart);
+            let totalQty = 0;
+            let totalPrice = 0;
+
+            if (items.length === 0) {
+                listEl.innerHTML = `
+                    <div class="text-center py-6 text-charcoal-800/60">
+                        <i class="fa-solid fa-bowl-rice text-3xl text-amber-900/25 mb-2"></i>
+                        <p class="text-sm font-medium">Your plate is empty.</p>
+                        <p class="text-xs mt-0.5">Select ₹100 or ₹130 Biryani above to begin!</p>
+                    </div>
+                `;
+            } else {
+                listEl.innerHTML = items.map(item => {
+                    totalQty += item.qty;
+                    totalPrice += item.price * item.qty;
+                    return `
+                        <div class="flex items-center justify-between gap-3 p-3 rounded-2xl bg-cream border border-amber-900/10">
+                            <div>
+                                <h4 class="font-bold text-sm text-charcoal-900">${item.name}</h4>
+                                <span class="text-xs font-semibold text-saffron-600">₹${item.price} × ${item.qty} = ₹${item.price * item.qty}</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-white rounded-xl p-1 border border-amber-900/15">
+                                <button onclick="updateQty('${item.name}', -1)" class="w-7 h-7 rounded-lg hover:bg-cream font-bold text-charcoal-900 cursor-pointer">-</button>
+                                <span class="w-5 text-center text-xs font-bold">${item.qty}</span>
+                                <button onclick="updateQty('${item.name}', 1)" class="w-7 h-7 rounded-lg hover:bg-cream font-bold text-saffron-600 cursor-pointer">+</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            navBadge.textContent = totalQty;
+            mobileCount.textContent = totalQty;
+            totalEl.textContent = `₹${totalPrice}`;
+        }
+
+        // Toggle Cart Modal Visibility
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+            updateCartUI();
+        }
+
+        // Direct WhatsApp Order for Single Item
+        function quickWhatsAppOrder(itemName, price) {
+            const phone = '917717750156';
+            const message = `Hello Biryani Restaurant (Muzaffarpur)! I would like to order:\n• 1x ${itemName} - ₹${price}\nPlease confirm availability.`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Full Cart WhatsApp Checkout
+        function checkoutViaWhatsApp() {
+            const items = Object.values(cart);
+            if (items.length === 0) {
+                showToast('Please add at least one Biryani plate first!', 'fa-circle-exclamation');
+                return;
+            }
+            const orderTypeEl = document.querySelector('input[name="orderType"]:checked');
+            const orderType = orderTypeEl ? orderTypeEl.value : 'Delivery / Pickup';
+            
+            let total = 0;
+            const lines = items.map(i => {
+                total += i.price * i.qty;
+                return `• ${i.qty}x ${i.name} = ₹${i.price * i.qty}`;
+            }).join('\n');
+
+            const phone = '917717750156';
+            const message = `Hello *Biryani Restaurant* (Bairiya, Muzaffarpur)!\n\n*New Order (${orderType}):*\n${lines}\n\n*Total Amount: ₹${total}*\nPlease confirm my order.`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Copy text helper using execCommand fallback
+        function copyText(text, successMessage) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMessage, 'fa-copy');
+            } catch (err) {
+                showToast('Could not copy automatically.', 'fa-circle-exclamation');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Share restaurant details
+        function shareRestaurant() {
+            const shareText = 'Biryani Restaurant (5.0 ★) - Bairiya Bus Stand, near Nathuni Bhagat High School, Muzaffarpur. Plates at ₹100 & ₹130! Call: 077177 50156';
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Biryani Restaurant - Muzaffarpur',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                copyText(shareText, 'Restaurant details copied to share!');
+            }
+        }
+
+        // Initialize UI on load
+        window.addEventListener('DOMContentLoaded', updateCartUI);
+    </script>
+</body>
+</html>
